@@ -1,0 +1,165 @@
+import hashlib
+from os import system
+from time import sleep
+from datetime import datetime
+
+# Método para Guardar a data e a hora atual
+h = datetime.now().hour
+m = datetime.now().minute
+s = datetime.now().second
+if h <= 9:
+    h = f'0{h}'
+if m <= 9:
+    m = f'0{m}'
+if s <= 9:
+    s = f'0{s}'
+
+data = datetime.today().date()
+guardarhora = (f'{h}:{m}:{s}')
+mostrarhora = (f'{h}:{m}')
+
+
+
+# Classe Carro
+class Carro:
+    def __init__(self, placa, cor, data, guardarhora):
+        self.placa = placa
+        self.cor = cor
+        self.data = data
+        self.guardarhora = guardarhora
+
+# Classe Estacionamento
+class Estacionamento:
+    def __init__(self, nome, vagas):
+        self.nome = nome
+        self.vagas = vagas
+        self.carros = []
+
+    # Método para adicionar carro
+    def adicionar_carro(self, carro):
+        if len(self.carros) < self.vagas:
+            self.carros.append(carro)
+            print("Carro adicionado com sucesso!")
+        else:
+            print("Desculpe, o estacionamento está cheio!")
+
+    # Método para remover carro
+    def remover_carro(self, placa):
+        for carro in self.carros:
+            if carro.placa == placa:
+                self.carros.remove(carro)
+                print("Carro removido com sucesso!")
+                return
+        print("Desculpe, não foi possível encontrar o carro com a placa fornecida.")
+
+    # Método para verificar vagas
+    def verificar_vagas(self):
+        print("Vagas disponíveis:", self.vagas - len(self.carros))
+        
+    def menu_upper(self):
+        print("="*37)
+        print('   GERENCIAMENTO DE ESTACIONAMENTO')
+        print('='*37)
+        
+    def login(self):
+        c = 0
+        while c == 0:
+            system('cls')
+            estacionamento.menu_upper()
+            with open('registroadmin.txt') as f:
+                login = f.readline().strip()
+                senha = f.readline().strip()
+            print('- Faça login -')
+            username = input('Digite seu usuário: ') #admin
+            password = input('Digite sua senha: ')  #123
+
+
+            # Método para encriptar senha e comparar com a senha no documento txt
+            senha_encriptada = hashlib.sha256(password.encode()).hexdigest()
+
+            if username == login and senha_encriptada == senha:
+                print('\n\033[1:32mLogin bem sucedido\033[m')
+                c += 1
+                sleep(1)
+                break
+            else:
+                print('\n\033[1:31mUsúario e senha não coincidem\033[m')
+                input('Enter para tentar novamente')
+
+    # Método para exibir menu
+    def menu(self):
+        #Método para atualizar a hora no menu principal
+        h = datetime.now().hour
+        m = datetime.now().minute
+        s = datetime.now().second
+        if h <= 9:
+            h = f'0{h}'
+        if m <= 9:
+            m = f'0{m}'
+        if s <= 9:
+            s = f'0{s}'
+
+        data = datetime.today().date()
+        mostrarhora = (f'{h}:{m}')
+        print(data, mostrarhora)
+        
+        system('cls')
+        estacionamento.menu_upper()
+        print("1. Adicionar carro                   {} - [{}]".format(mostrarhora, data))
+        print("2. Remover carro")
+        print("3. Verificar vagas")
+        print("4. Sair")
+
+# Criação de um estacionamento
+estacionamento = Estacionamento("Minha Estação", 20)
+
+estacionamento.menu_upper()
+
+estacionamento.login()
+
+# Exibição do menu
+estacionamento.menu()
+
+# Loop para receber entradas do usuário
+while True:
+    opcao = int(input("Escolha uma opção: "))
+
+    # Adicionar carro
+    if opcao == 1:
+        i = 0
+        while i == 0:
+            system('cls')
+            estacionamento.menu_upper()
+            print('- Adicionar Carro -\n')
+            placa = input("Digite a placa do carro: ")
+            cor = input("Digite a cor do carro: ")
+            carro = Carro(placa, cor, data, guardarhora)
+            estacionamento.adicionar_carro(carro)
+            escolha = str(input('Deseja adicionar mais um carro?[S/N] ')).strip().upper()
+            if escolha == 'N':
+                i += 1
+
+    # Remover carro
+    elif opcao == 2:
+        system('cls')
+        estacionamento.menu_upper()
+        print('- Remover Carro -\n')
+        placa = input("Digite a placa do carro: ")
+        estacionamento.remover_carro(placa)
+        input('Enter para voltar')
+
+    # Verificar vagas
+    elif opcao == 3:
+        system('cls')
+        estacionamento.menu_upper()
+        estacionamento.verificar_vagas()
+        input('Enter para voltar')
+
+    # Sair
+    elif opcao == 4:
+        break
+
+    if opcao == None:
+        estacionamento.menu
+    # Exibir menu novamente
+    estacionamento.menu()

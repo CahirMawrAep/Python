@@ -1,0 +1,8 @@
+Programa Caça Talentos Python 2022
+
+Projeto: Gerenciador de Estacionamento
+
+Lista dos Participantes do Grupo
+
+- Willian Inácio Vieira
+- Guilherme Thyerri Aguiar de Santana
